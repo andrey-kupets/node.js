@@ -21,27 +21,27 @@ const entranceData = [
 const fs = require('fs');
 const path = require('path');
 
-// entranceData.forEach(studik => {
-//     const {name, gender, age} = studik;
-//     if (age >= 20 && gender === 'male') {
-//         fs.writeFile(path.join(__dirname, 'manOlder20', `${name}.json`), JSON.stringify(studik), err => {
-//             if (err) console.log(err);
-//             console.log(JSON.stringify(studik))
-//         })
-//     } else if (age < 20 && gender === 'male') {
-//         fs.writeFile(path.join(__dirname, 'manYounger20', `${name}.json`), JSON.stringify(studik), err => {
-//             if (err) console.log(err);
-//         })
-//     } else if (age >= 20 && gender === 'female') {
-//         fs.writeFile(path.join(__dirname, 'womenOlder20', `${name}.json`), JSON.stringify(studik), err => {
-//             if (err) console.log(err);
-//         })
-//     } else if (age < 20 && gender === 'female') {
-//         fs.writeFile(path.join(__dirname, 'womenYounger20', `${name}.json`), JSON.stringify(studik), err => {
-//             if (err) console.log(err);
-//         })
-//     }
-// })
+entranceData.forEach(studik => {
+    const {name, gender, age} = studik;
+    if (age >= 20 && gender === 'male') {
+        fs.writeFile(path.join(__dirname, 'manOlder20', `${name}.json`), JSON.stringify(studik), err => {
+            if (err) console.log(err);
+            console.log(JSON.stringify(studik))
+        })
+    } else if (age < 20 && gender === 'male') {
+        fs.writeFile(path.join(__dirname, 'manYounger20', `${name}.json`), JSON.stringify(studik), err => {
+            if (err) console.log(err);
+        })
+    } else if (age >= 20 && gender === 'female') {
+        fs.writeFile(path.join(__dirname, 'womenOlder20', `${name}.json`), JSON.stringify(studik), err => {
+            if (err) console.log(err);
+        })
+    } else if (age < 20 && gender === 'female') {
+        fs.writeFile(path.join(__dirname, 'womenYounger20', `${name}.json`), JSON.stringify(studik), err => {
+            if (err) console.log(err);
+        })
+    }
+})
 
 console.log(22)
 
