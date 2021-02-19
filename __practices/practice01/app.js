@@ -17,13 +17,24 @@ const entranceData = [
     {name: 'ostap', gender: 'male', age: 19},
     {name: 'violeta', gender: 'female', age: 20},
 ]
+const folders = ['manOlder20','manYounger20','womenOlder20','womenYounger20']
 
 const fs = require('fs');
 const path = require('path');
 
+folders.forEach(dir =>{
+    if (!fs.existsSync(dir)){
+        fs.mkdirSync(dir);
+    }
+})
+
 entranceData.forEach(studik => {
     const {name, gender, age} = studik;
     if (age >= 20 && gender === 'male') {
+        fs.writeFile(path.join(__dirname, 'manOlder20', `${name}.json`), JSON.stringify(studik), err => {
+            if (err) console.log(err);
+            console.log(JSON.stringify(studik))
+        })
         fs.writeFile(path.join(__dirname, 'manOlder20', `${name}.json`), JSON.stringify(studik), err => {
             if (err) console.log(err);
             console.log(JSON.stringify(studik))
