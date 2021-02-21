@@ -65,15 +65,15 @@ app.post('/register', (req, res) => {
         const {email} = req.body;
         const invalidUser = users.find(user => user.email === email);
 
-        if (!invalidUser) {
-            users.push(req.body);
-            fs.writeFile(dataBasePath, JSON.stringify(users), err1 => {
-                if (err1) console.log(err1)
-            });
-            res.redirect('/users');
+        if (invalidUser) {
+            res.redirect('/error');
             return;
         }
-        res.redirect('/error');
+        users.push(req.body);
+        fs.writeFile(dataBasePath, JSON.stringify(users), err1 => {
+            if (err1) console.log(err1)
+        });
+        res.redirect('/users');
     });
 });
 
