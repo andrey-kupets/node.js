@@ -35,3 +35,9 @@ function straighten(wrongDir, rightDir) {
 }
 
 straighten(dirBardak, dirStraightened)
+
+
+
+
+
+
