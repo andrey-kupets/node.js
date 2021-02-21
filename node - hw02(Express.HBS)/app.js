@@ -21,7 +21,7 @@ const fs = require('fs');
 const path = require('path');
 const dataBasePath = path.join(__dirname, 'dataBase', 'users.json');
 
-const app= express();
+const app = express();
 
 app.listen(5000, () => {
     console.log('the server is ready');
@@ -32,9 +32,7 @@ app.use(express.urlencoded({extended: true}));
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.set('view engine', '.hbs');
-app.engine('.hbs', expressHbs({
-    defaultLayout: false
-}));
+app.engine('.hbs', expressHbs({defaultLayout: false}));
 app.set('views', path.join(__dirname, 'static'));
 
 app.get('/users', (req, res) => {
@@ -52,8 +50,8 @@ app.get('/users/:userId', (req, res) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
         res.render('user', {user: users[userId]});
-    })
-})
+    });
+});
 
 
 app.get('/register', (req, res) => {
@@ -85,7 +83,7 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
     fs.readFile(dataBasePath, (err, data) => {
-        if (err) console.log(err)
+        if (err) console.log(err);
 
         const {email, password} = req.body;
         const users = JSON.parse(data.toString());
