@@ -15,5 +15,9 @@
     "url": "https://github.com/andrey-kupets/node.js/issues"
   },
   "homepage": "https://github.com/andrey-kupets/node.js#readme",
-  "description": ""
+  "keywords": [],
+  "description": "",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
