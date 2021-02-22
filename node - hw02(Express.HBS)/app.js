@@ -25,7 +25,7 @@ const app = express();
 
 app.listen(5000, () => {
     console.log('the server is ready');
-})
+});
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -35,17 +35,17 @@ app.set('view engine', '.hbs');
 app.engine('.hbs', expressHbs({defaultLayout: false}));
 app.set('views', path.join(__dirname, 'static'));
 
+//2nd var - more destructuring
+//
 app.get('/users', (req, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
         res.render('users', {users});
-        console.log(users);
     });
 });
 
-app.get('/users/:userId', (req, res) => {
-    const {userId} = req.params;
+app.get('/users/:userId', ({params: {userId}}, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
@@ -53,25 +53,23 @@ app.get('/users/:userId', (req, res) => {
     });
 });
 
-
 app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/register', (req, res) => {
+app.post('/register', ({body, body: {email}}, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
-        const {email} = req.body;
-        const invalidUser = users.find(user => user.email === email);
+        const invalidUser = users.some(user => user.email === email);
 
         if (invalidUser) {
             res.redirect('/error');
             return;
         }
-        users.push(req.body);
+        users.push(body);
         fs.writeFile(dataBasePath, JSON.stringify(users), err1 => {
-            if (err1) console.log(err1)
+            if (err1) console.log(err1);
         });
         res.redirect('/users');
     });
@@ -81,22 +79,89 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', ({body: {email, password}}, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
-
-        const {email, password} = req.body;
         const users = JSON.parse(data.toString());
         const validUserIndex = users.findIndex(user => user.email === email && user.password === password);
 
-        if (validUserIndex === -1) {
-            res.redirect('/register');
+        if (validUserIndex >= 0) {
+            res.redirect(`/users/${validUserIndex}`);
             return;
         }
-        res.redirect(`/users/${validUserIndex}`);
+        res.redirect('/register');
     });
 });
 
 app.get('/error', (req, res) => {
-    res.render('error');
+    res.render('error')
 });
+
+
+//1st var
+//
+// app.get('/users', (req, res) => {
+//     fs.readFile(dataBasePath, (err, data) => {
+//         if (err) console.log(err);
+//         const users = JSON.parse(data.toString());
+//         res.render('users', {users});
+//         console.log(users);
+//     });
+// });
+//
+// app.get('/users/:userId', (req, res) => {
+//     const {userId} = req.params;
+//     fs.readFile(dataBasePath, (err, data) => {
+//         if (err) console.log(err);
+//         const users = JSON.parse(data.toString());
+//         res.render('user', {user: users[userId]});
+//     });
+// });
+//
+//
+// app.get('/register', (req, res) => {
+//     res.render('register');
+// });
+//
+// app.post('/register', (req, res) => {
+//     fs.readFile(dataBasePath, (err, data) => {
+//         if (err) console.log(err);
+//         const users = JSON.parse(data.toString());
+//         const {email} = req.body;
+//         const invalidUser = users.find(user => user.email === email);
+//
+//         if (invalidUser) {
+//             res.redirect('/error');
+//             return;
+//         }
+//         users.push(req.body);
+//         fs.writeFile(dataBasePath, JSON.stringify(users), err1 => {
+//             if (err1) console.log(err1)
+//         });
+//         res.redirect('/users');
+//     });
+// });
+//
+// app.get('/login', (req, res) => {
+//     res.render('login');
+// });
+//
+// app.post('/login', (req, res) => {
+//     fs.readFile(dataBasePath, (err, data) => {
+//         if (err) console.log(err);
+//
+//         const {email, password} = req.body;
+//         const users = JSON.parse(data.toString());
+//         const validUserIndex = users.findIndex(user => user.email === email && user.password === password);
+//
+//         if (validUserIndex === -1) {
+//             res.redirect('/register');
+//             return;
+//         }
+//         res.redirect(`/users/${validUserIndex}`);
+//     });
+// });
+//
+// app.get('/error', (req, res) => {
+//     res.render('error');
+// });
