@@ -1,7 +1,16 @@
 {
-  "name": "node - hw03(Routers)",
+  "name": "node_hw03",
   "version": "1.0.0",
+  "main": "app.js",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "description": ""
 }
