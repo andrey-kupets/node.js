@@ -6,7 +6,7 @@ module.exports = {
             const users = userService.findAllUsers();
             res.json(users);
         } catch (e) {
-            res.status(418).json(e.message);
+            res.status(400).json(e.message);
         }
     },
     getOneUser: (req, res) => {
