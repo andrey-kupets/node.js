@@ -2,7 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const {promisify} = require('util');
 
+const errMessages = require('../messages/error.messages');
+
 const DB =  path.join(process.cwd(), 'dataBase', 'users.json');
+// const DB = path.join(__dirname, '../', 'dataBase', 'users.json'); // or in that way
 // проверка как выйти на правильный путь __dirname vs __process.cwd()
 // console.log(__dirname)
 // console.log(process.cwd())
@@ -14,11 +17,12 @@ module.exports = {
     createUser: async (userObj) => {
         const dataUsers = await readFileByPromise(DB);
         const users = JSON.parse(dataUsers.toString());
+        const {preferLang = 'en'} = userObj;
 
         const invalidUser = users.some(user => user.email === userObj.email)
 
         if (invalidUser) {
-            throw new Error('this user exists')
+            throw new Error(errMessages.USER_EXISTS[preferLang])
         }
 
         users.push(userObj);
@@ -31,14 +35,14 @@ module.exports = {
         return JSON.parse(dataUsers.toString());
     },
 
-    findUserByName: async (name) => {
+    findUserByName: async (name, preferLang) => {
         const dataUsers = await readFileByPromise(DB);
         const users = JSON.parse(dataUsers.toString());
 
         const validUser = users.find(user => user.name === name);
 
         if(!validUser) {
-            throw new Error('there is no user');
+            throw new Error(errMessages.NO_USER[preferLang]);
         }
 
         return validUser;
