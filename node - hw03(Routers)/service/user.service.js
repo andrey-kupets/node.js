@@ -29,10 +29,23 @@ module.exports = {
         await writeFileByPromise(DB, JSON.stringify(users));
     },
 
-    findAllUsers: async () => {
+    findAllUsers: async (preferLang, query) => {
         const dataUsers = await readFileByPromise(DB);
+        const {name} = query;
+        const users = JSON.parse(dataUsers.toString());
 
-        return JSON.parse(dataUsers.toString());
+        if (!name) {
+            return users;
+        }
+
+        const anyUser = users.some(user => user.name === name);
+        const filter = users.filter(user => user.name === name);
+
+        if (!anyUser) {
+            throw new Error(errMessages.NO_USERS[preferLang]);
+        }
+
+        return filter;
     },
 
     // findUserByName: async (name, preferLang) => {

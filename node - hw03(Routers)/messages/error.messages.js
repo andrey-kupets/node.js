@@ -29,6 +29,11 @@ module.exports = {
         ua: "Неправильний id"
     },
 
+    NO_USERS: {
+        en: "There are no users",
+        ua: "Таких користувачів немає"
+    },
+
     // NO_USER: {
     //     en: "There's no user",
     //     ua: "Такого користувача немає"

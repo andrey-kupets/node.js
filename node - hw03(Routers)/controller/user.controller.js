@@ -13,9 +13,9 @@ module.exports = {
         }
     },
 
-    getAllUsers: async (req, res) => {
+    getAllUsers: async ({body: {preferLang = 'en'}, query}, res) => {
         try {
-            const users = await userService.findAllUsers();
+            const users = await userService.findAllUsers(preferLang, query);
 
             res.status(resCode.OK).json(users);
         } catch (e) {
