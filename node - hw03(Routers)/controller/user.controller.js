@@ -33,11 +33,11 @@ module.exports = {
         }
     },
 
-    deleteUser: async ({params: {userId}, body: {preferLang = 'en'}}, res) => {
+    deleteUser: async ({params: {userId}}, res) => {
         try {
             await userService.deleteUser(userId);
 
-            res.status(resCode.NO_CONTENT).json(confirmMessages.USER_DELETED[preferLang]);
+            res.status(resCode.NO_CONTENT).json("User is deleted");
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
