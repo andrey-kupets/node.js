@@ -23,10 +23,10 @@ module.exports = {
         }
     },
 
-    getUserByName: async (req, res) => {
+    getUserByName: async ({params, body}, res) => {
         try {
-            const {name} = req.params;
-            const {preferLang = 'en'} = req.body;
+            const {name} = params;
+            const {preferLang = 'en'} = body;
             const user = await userService.findUserByName(name, preferLang);
 
             res.status(resCode.OK).json(user);
