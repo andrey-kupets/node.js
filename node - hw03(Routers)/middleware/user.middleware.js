@@ -28,21 +28,21 @@ module.exports = {
         }
     },
 
-    isNameValid: (req, res, next) => {
-        try {
-            const {preferLang = 'en'} = req.body;
-            const name = req.params.name;
-            const validName = new RegExp("^[A-zА-яЁё]+$");
-
-            if (!validName.test(name)) {
-                throw new Error(errMessages.INVALID_NAME[preferLang]);
-            }
-
-            next();
-        } catch (e) {
-            res.status(resCodes.BAD_REQUEST).json(e.message);
-        }
-    },
+    // isNameValid: (req, res, next) => {
+    //     try {
+    //         const {preferLang = 'en'} = req.body;
+    //         const name = req.params.name;
+    //         const validName = new RegExp("^[A-zА-яЁё]+$");
+    //
+    //         if (!validName.test(name)) {
+    //             throw new Error(errMessages.INVALID_NAME[preferLang]);
+    //         }
+    //
+    //         next();
+    //     } catch (e) {
+    //         res.status(resCodes.BAD_REQUEST).json(e.message);
+    //     }
+    // },
 
     isIdValid: (req, res, next) => {
         try {
