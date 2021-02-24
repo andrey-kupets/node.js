@@ -37,7 +37,7 @@ module.exports = {
         try {
             await userService.deleteUser(userId);
 
-            res.status(resCode.NO_CONTENT).json('User is deleted'); // если ставить статус 204 No Content -  то он перебивает инфо джейсона json('User is deleted') и на выходе будет пустота.
+            res.json('User is deleted').status(resCode.NO_CONTENT); // если ставить статус 204 No Content -  то он(если будет идти первым по коду) перебивает инфо джейсона json('User is deleted') и на выходе будет пустота
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
