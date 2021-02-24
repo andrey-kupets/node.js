@@ -3,7 +3,7 @@ const resCode = require('../constant/responseCodes.enum');
 const confirmMessages = require('../messages/confirm.messages');
 
 module.exports = {
-    makeUser: async ({body, body: {preferLang = 'en'}}, res) => {
+    createUser: async ({body, body: {preferLang = 'en'}}, res) => {
         try {
             await userService.createUser(body);
 
@@ -35,11 +35,11 @@ module.exports = {
         }
     },
 
-    kickOutUser: async ({params: {userId}, body: {preferLang = 'en'}}, res) => {
+    deleteUser: async ({params: {userId}, body: {preferLang = 'en'}}, res) => {
         try {
             await userService.deleteUser(userId);
 
-            res.status(resCode.OK).json(confirmMessages.USER_DELETED[preferLang]);
+            res.status(resCode.NO_CONTENT).json(confirmMessages.USER_DELETED[preferLang]);
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
