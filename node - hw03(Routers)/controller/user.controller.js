@@ -23,21 +23,21 @@ module.exports = {
         }
     },
 
-    getUserByName: async ({params: {name}, body: {preferLang = 'en'}}, res) => {
-        try {
-            const user = await userService.findUserByName(name, preferLang);
-
-            res.status(resCode.OK).json(user);
-        } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
-        }
-    },
+    // getUserByName: async ({params: {name}, body: {preferLang = 'en'}}, res) => {
+    //     try {
+    //         const user = await userService.findUserByName(name, preferLang);
+    //
+    //         res.status(resCode.OK).json(user);
+    //     } catch (e) {
+    //         res.status(resCode.BAD_REQUEST).json(e.message);
+    //     }
+    // },
 
     deleteUser: async ({params: {userId}}, res) => {
         try {
             await userService.deleteUser(userId);
 
-            res.status(resCode.NO_CONTENT).json("User is deleted");
+            res.status(resCode.NO_CONTENT).json('User is deleted');
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }

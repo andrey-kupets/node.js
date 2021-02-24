@@ -11,7 +11,7 @@ module.exports = {
             }
 
             if (!email.includes('@')) {
-                throw new Error(errMessages.INVALID_MAIL[preferLang])
+                throw new Error(errMessages.INVALID_MAIL[preferLang]);
             }
 
             if (password.length < 6) {

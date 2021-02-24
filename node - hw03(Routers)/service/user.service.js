@@ -19,10 +19,10 @@ module.exports = {
         const users = JSON.parse(dataUsers.toString());
         const {preferLang = 'en'} = userObj;
 
-        const invalidUser = users.some(user => user.email === userObj.email)
+        const invalidUser = users.some(user => user.email === userObj.email);
 
         if (invalidUser) {
-            throw new Error(errMessages.USER_EXISTS[preferLang])
+            throw new Error(errMessages.USER_EXISTS[preferLang]);
         }
 
         users.push(userObj);
@@ -35,18 +35,18 @@ module.exports = {
         return JSON.parse(dataUsers.toString());
     },
 
-    findUserByName: async (name, preferLang) => {
-        const dataUsers = await readFileByPromise(DB);
-        const users = JSON.parse(dataUsers.toString());
-
-        const validUser = users.find(user => user.name === name);
-
-        if(!validUser) {
-            throw new Error(errMessages.NO_USER[preferLang]);
-        }
-
-        return validUser;
-    },
+    // findUserByName: async (name, preferLang) => {
+    //     const dataUsers = await readFileByPromise(DB);
+    //     const users = JSON.parse(dataUsers.toString());
+    //
+    //     const validUser = users.find(user => user.name === name);
+    //
+    //     if(!validUser) {
+    //         throw new Error(errMessages.NO_USER[preferLang]);
+    //     }
+    //
+    //     return validUser;
+    // },
 
     deleteUser: async (userId) => {
         const dataUsers = await readFileByPromise(DB);
@@ -59,7 +59,7 @@ module.exports = {
     findUserById: async (userId) => {
         const dataUsers = await readFileByPromise(DB);
 
-        return JSON.parse(dataUsers.toString())[userId]
+        return JSON.parse(dataUsers.toString())[userId];
     }
 
 }
