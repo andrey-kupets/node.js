@@ -5,6 +5,6 @@ module.exports = {
     },
     USER_DELETED: {
         en: "user is deleted",
-        ua: "даний користувача видалений"
+        ua: "даний користувач видалений"
     }
 }
