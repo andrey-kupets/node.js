@@ -7,9 +7,13 @@
 //
 // Створити файл з юзерами, який буде виступати в ролі бази данних.
 //
-//     При реєстрації юзер вводть мейл, нік та пороль і ви його данні дописуєте в файл. Але тільки якщо його немає ще. Якшо він є, то видаєте помилку. Після реєстрації переходите на сторінку зі всіма юзерми.
-//
-//     При логінації юзер так само ввоить мейл та пароль і вам необхідно знайти його мейлик в списку юзерів та якщо такий мейлик з таким паролем є, то віддати інформацію про юзера. В інакшому випадку сказати, що необхідно реєструватись.
+//     При реєстрації юзер вводть мейл, нік та пороль і ви його данні дописуєте в файл.
+//     Але тільки якщо його немає ще.
+//     Якшо він є, то видаєте помилку. Після реєстрації переходите на сторінку зі всіма юзерми.
+
+//     При логінації юзер так само ввоить мейл та пароль і вам необхідно знайти його мейлик в списку юзерів
+//     та якщо такий мейлик з таким паролем є, то віддати інформацію про юзера.
+//     В інакшому випадку сказати, що необхідно реєструватись.
 //
 //     І відображення всіх юзерів це відповідно просто виведення списку вісх юзерів.
 //
@@ -19,6 +23,7 @@ const express = require('express');
 const expressHbs = require('express-handlebars');
 const fs = require('fs');
 const path = require('path');
+
 const dataBasePath = path.join(__dirname, 'dataBase', 'users.json');
 
 const app = express();
@@ -28,28 +33,28 @@ app.listen(5000, () => {
 });
 
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'static')));
 app.set('view engine', '.hbs');
-app.engine('.hbs', expressHbs({defaultLayout: false}));
+app.engine('.hbs', expressHbs({ defaultLayout: false }));
 app.set('views', path.join(__dirname, 'static'));
 
-//2nd var - more destructuring
+// 2nd var - more destructuring
 //
 app.get('/users', (req, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
-        res.render('users', {users});
+        res.render('users', { users });
     });
 });
 
-app.get('/users/:userId', ({params: {userId}}, res) => {
+app.get('/users/:userId', ({ params: { userId } }, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
-        res.render('user', {user: users[userId]});
+        res.render('user', { user: users[userId] });
     });
 });
 
@@ -57,18 +62,18 @@ app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/register', ({body, body: {email}}, res) => {
+app.post('/register', ({ body, body: { email } }, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
-        const invalidUser = users.some(user => user.email === email);
+        const invalidUser = users.some((user) => user.email === email);
 
         if (invalidUser) {
             res.redirect('/error');
             return;
         }
         users.push(body);
-        fs.writeFile(dataBasePath, JSON.stringify(users), err1 => {
+        fs.writeFile(dataBasePath, JSON.stringify(users), (err1) => {
             if (err1) console.log(err1);
         });
         res.redirect('/users');
@@ -79,11 +84,11 @@ app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.post('/login', ({body: {email, password}}, res) => {
+app.post('/login', ({ body: { email, password } }, res) => {
     fs.readFile(dataBasePath, (err, data) => {
         if (err) console.log(err);
         const users = JSON.parse(data.toString());
-        const validUserIndex = users.findIndex(user => user.email === email && user.password === password);
+        const validUserIndex = users.findIndex((user) => user.email === email && user.password === password);
 
         if (validUserIndex >= 0) {
             res.redirect(`/users/${validUserIndex}`);
@@ -94,11 +99,10 @@ app.post('/login', ({body: {email, password}}, res) => {
 });
 
 app.get('/error', (req, res) => {
-    res.render('error')
+    res.render('error');
 });
 
-
-//1st var
+// 1st var
 //
 // app.get('/users', (req, res) => {
 //     fs.readFile(dataBasePath, (err, data) => {
