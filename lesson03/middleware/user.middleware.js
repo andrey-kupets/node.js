@@ -7,7 +7,7 @@ module.exports = {
             const userId = +req.params.userId;
 
             if (userId < 0 || !Number.isInteger(userId) || Number.isNaN(userId)) {
-                throw new Error ('not valid id');
+                throw new Error('not valid id');
             }
 
             next();
@@ -18,7 +18,7 @@ module.exports = {
 
     isUserValid: (req, res, next) => {
         try {
-            const {name, password, preferLang = 'en'} = req.body;
+            const { name, password, preferLang = 'en' } = req.body;
 
             if (!name || !password) {
                 throw new Error('some fields are empty');
@@ -30,12 +30,8 @@ module.exports = {
             }
 
             next();
-
         } catch (e) {
             res.status(errorCodes.BAD_REQUEST).json(e.message);
         }
     }
-}
-
-
-
+};

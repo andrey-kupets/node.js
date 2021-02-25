@@ -10,7 +10,7 @@ module.exports = {
         }
     },
     getOneUser: (req, res) => {
-        const {userId} = req.params;
+        const { userId } = req.params;
 
         const user = userService.findUserById(userId);
         res.json(user);
@@ -19,4 +19,4 @@ module.exports = {
         userService.createUser(req.body);
         res.status(201).json('user is created');
     }
-}
+};
