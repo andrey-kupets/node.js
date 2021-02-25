@@ -1,10 +1,10 @@
 const fs = require('fs');
 const path = require('path');
-const {promisify} = require('util');
+const { promisify } = require('util');
 
 const errMessages = require('../messages/error.messages');
 
-const DB =  path.join(process.cwd(), 'dataBase', 'users.json');
+const DB = path.join(process.cwd(), 'dataBase', 'users.json');
 // const DB = path.join(__dirname, '../', 'dataBase', 'users.json'); // or in that way
 // проверка как выйти на правильный путь __dirname vs __process.cwd()
 // console.log(__dirname)
@@ -17,9 +17,9 @@ module.exports = {
     createUser: async (userObj) => {
         const dataUsers = await readFileByPromise(DB);
         const users = JSON.parse(dataUsers.toString());
-        const {preferLang = 'en'} = userObj;
+        const { preferLang = 'en' } = userObj;
 
-        const invalidUser = users.some(user => user.email === userObj.email);
+        const invalidUser = users.some((user) => user.email === userObj.email);
 
         if (invalidUser) {
             throw new Error(errMessages.USER_EXISTS[preferLang]);
@@ -31,15 +31,15 @@ module.exports = {
 
     findAllUsers: async (preferLang, query) => {
         const dataUsers = await readFileByPromise(DB);
-        const {name} = query;
+        const { name } = query;
         const users = JSON.parse(dataUsers.toString());
 
         if (!name) {
             return users;
         }
 
-        const anyUser = users.some(user => user.name === name);
-        const filter = users.filter(user => user.name === name);
+        const anyUser = users.some((user) => user.name === name);
+        const filter = users.filter((user) => user.name === name);
 
         if (!anyUser) {
             throw new Error(errMessages.NO_USERS[preferLang]);
@@ -75,5 +75,4 @@ module.exports = {
         return JSON.parse(dataUsers.toString())[userId];
     }
 
-}
-
+};

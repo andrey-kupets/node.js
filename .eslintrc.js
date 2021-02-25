@@ -15,6 +15,7 @@ module.exports = {
     ],
     plugins: [],
     rules: {
+        'linebreak-style': 0,
         'array-bracket-newline': [
             'error',
             { minItems: 2 },

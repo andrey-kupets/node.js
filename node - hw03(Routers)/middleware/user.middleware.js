@@ -4,9 +4,11 @@ const errMessages = require('../messages/error.messages');
 module.exports = {
     isUserValid: (req, res, next) => {
         try {
-            const {name, email, password, preferLang = 'en'} = req.body;
+            const {
+                name, email, password, preferLang = 'en'
+            } = req.body;
 
-            if(!name || !email || !password) {
+            if (!name || !email || !password) {
                 throw new Error(errMessages.EMPTY[preferLang]);
             }
 
@@ -47,10 +49,10 @@ module.exports = {
     isIdValid: (req, res, next) => {
         try {
             const userId = +req.params.userId;
-            const {preferLang = 'en'} = req.body;
+            const { preferLang = 'en' } = req.body;
 
             if (userId < 0 || !Number.isInteger(userId) || Number.isNaN(userId)) {
-                throw new Error (errMessages.INVALID_ID[preferLang]);
+                throw new Error(errMessages.INVALID_ID[preferLang]);
             }
 
             next();
@@ -58,6 +60,4 @@ module.exports = {
             res.status(resCodes.BAD_REQUEST).json(e.message);
         }
     }
-}
-
-
+};

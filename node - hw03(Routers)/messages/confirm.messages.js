@@ -1,6 +1,6 @@
 module.exports = {
     USER_CREATED: {
-        en: "new user is created",
-        ua: "новий користувач створений"
+        en: 'new user is created',
+        ua: 'новий користувач створений'
     }
-}
+};

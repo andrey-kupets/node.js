@@ -3,7 +3,7 @@ const resCode = require('../constant/responseCodes.enum');
 const confirmMessages = require('../messages/confirm.messages');
 
 module.exports = {
-    createUser: async ({body, body: {preferLang = 'en'}}, res) => {
+    createUser: async ({ body, body: { preferLang = 'en' } }, res) => {
         try {
             await userService.createUser(body);
 
@@ -13,7 +13,7 @@ module.exports = {
         }
     },
 
-    getAllUsers: async ({body: {preferLang = 'en'}, query}, res) => {
+    getAllUsers: async ({ body: { preferLang = 'en' }, query }, res) => {
         try {
             const users = await userService.findAllUsers(preferLang, query);
 
@@ -33,17 +33,18 @@ module.exports = {
     //     }
     // },
 
-    deleteUser: async ({params: {userId}}, res) => {
+    deleteUser: async ({ params: { userId } }, res) => {
         try {
             await userService.deleteUser(userId);
 
+            // eslint-disable-next-line max-len
             res.json('User is deleted').status(resCode.NO_CONTENT); // если ставить статус 204 No Content -  то он(если будет идти первым по коду) перебивает инфо джейсона json('User is deleted') и на выходе будет пустота
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
     },
 
-    getUserById: async ({params: {userId}}, res) => {
+    getUserById: async ({ params: { userId } }, res) => {
         try {
             const user = await userService.findUserById(userId);
 
@@ -52,4 +53,4 @@ module.exports = {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
     }
-}
+};
