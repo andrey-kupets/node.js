@@ -1,23 +1,13 @@
 const userService = require('../service/user.service');
 const resCode = require('../constant/responseCodes.enum');
-const confirmMessages = require('../messages/confirm.messages');
+const confirmMessages = require('../messages/user/confirm.messages');
 
 module.exports = {
-    // createUser: async ({ body, body: { preferLang = 'en' } }, res) => {
-    //     try {
-    //         await userService.createUser(body);
-    //
-    //         res.status(resCode.CREATED).json(confirmMessages.USER_CREATED[preferLang]);
-    //     } catch (e) {
-    //         res.status(resCode.BAD_REQUEST).json(e.message);
-    //     }
-    // },
-
     createUser: async (req, res) => {
         const { preferLang = 'ua' } = req.body;
 
         try {
-            await userService.createUser(req.body);
+            await userService.createUser(req.body, preferLang);
 
             res.status(resCode.CREATED).json(confirmMessages.USER_CREATED[preferLang]);
         } catch (e) {
@@ -26,10 +16,10 @@ module.exports = {
     },
 
     getAllUsers: async (req, res) => {
-        // const { body: { preferLang = 'en' }, query } = req;
-        //
+        const { query, body: { preferLang = 'ua' } } = req;
+
         try {
-            const users = await userService.findAllUsers(req.query);
+            const users = await userService.findAllUsers(query, preferLang);
 
             res.status(resCode.OK).json(users);
         } catch (e) {
@@ -51,10 +41,10 @@ module.exports = {
     },
 
     getUserById: async (req, res) => {
-        const { params: { userId } } = req;
+        const { params: { userId }, body: { preferLang = 'ua' } } = req;
 
         try {
-            const user = await userService.findUserById(userId);
+            const user = await userService.findUserById(userId, preferLang);
 
             res.status(resCode.OK).json(user);
         } catch (e) {

@@ -1,13 +1,14 @@
 const resCodes = require('../constant/responseCodes.enum');
-const errMessages = require('../messages/error.messages');
+const errMessages = require('../messages/user/error.messages');
 
 module.exports = {
     isUserValid: (req, res, next) => {
         try {
             const {
-                name, email, password, preferLang = 'en'
+                name, email, password, preferLang = 'ua'
             } = req.body;
 
+            // условие наличия полей можно также задавать в модели  - required: true
             if (!name || !email || !password) {
                 throw new Error(errMessages.EMPTY[preferLang]);
             }
@@ -33,9 +34,9 @@ module.exports = {
     isIdValid: (req, res, next) => {
         try {
             const { userId } = req.params;
-            const { preferLang = 'en' } = req.body;
+            const { preferLang = 'ua' } = req.body;
 
-            if (+userId.split('').length !== 24) {
+            if (userId.length !== 24) {
                 throw new Error(errMessages.INVALID_ID[preferLang]);
             }
 

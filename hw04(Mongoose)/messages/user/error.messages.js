@@ -16,17 +16,17 @@ module.exports = {
 
     INVALID_MAIL: {
         en: 'Invalid mail',
-        ua: 'Неправильна пошта'
-    },
-
-    INVALID_NAME: {
-        en: 'Invalid name',
-        ua: "Неправильние ім'я"
+        ua: 'Неправильно вказано пошту'
     },
 
     INVALID_ID: {
         en: 'Invalid id',
-        ua: 'Неправильний id'
+        ua: 'Неправильно вказано id'
+    },
+
+    NO_USER: {
+        en: 'No user with the specified id was found',
+        ua: 'Користувача з вказаним id не знайдено'
     },
 
     NO_USERS: {
