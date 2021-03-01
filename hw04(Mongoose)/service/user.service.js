@@ -8,5 +8,7 @@ module.exports = {
 
     deleteUser: (userId) => User.deleteOne({ _id: userId }),
 
-    findUserById: (userId) => User.findById(userId)
+    findUserById: (userId) => User.findById(userId),
+
+    shiftUser: (userId, newUserObj) => User.findByIdAndUpdate(userId, newUserObj)
 };

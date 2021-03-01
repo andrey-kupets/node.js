@@ -49,5 +49,18 @@ module.exports = {
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
+    },
+
+    updateCar: async (req, res) => {
+        try {
+            const { carId } = req.params;
+            const { preferLang = 'ua' } = req.body;
+
+            await carService.shiftCar(carId, req.body);
+
+            res.status(resCode.OK).json(confirmMessages.CAR_UPDATED[preferLang]);
+        } catch (e) {
+            res.status(resCode.BAD_REQUEST).json(e.messages);
+        }
     }
 };

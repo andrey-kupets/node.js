@@ -11,4 +11,6 @@ router.delete('/:carId', carMiddleware.isCarIdValid, carController.deleteCar);
 
 router.get('/:carId', carMiddleware.isCarIdValid, carMiddleware.isNoCar, carController.getCarById);
 
+router.put('/:carId', carMiddleware.isCarIdValid, carMiddleware.isNoCar, carController.updateCar);
+
 module.exports = router;

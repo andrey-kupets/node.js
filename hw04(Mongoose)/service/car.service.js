@@ -7,5 +7,7 @@ module.exports = {
 
     deleteCar: (carId) => Car.deleteOne({ _id: carId }),
 
-    findCarById: (carId) => Car.findById(carId)
+    findCarById: (carId) => Car.findById(carId),
+
+    shiftCar: (carId, newCarObj) => Car.findByIdAndUpdate(carId, newCarObj)
 };

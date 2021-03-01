@@ -11,4 +11,6 @@ router.delete('/:userId', userMiddleware.isUserIdValid, userController.deleteUse
 
 router.get('/:userId', userMiddleware.isUserIdValid, userMiddleware.isNoUser, userController.getUserById);
 
+router.put('/:userId', userMiddleware.isUserIdValid, userMiddleware.isNoUser, userController.updateUser);
+
 module.exports = router;

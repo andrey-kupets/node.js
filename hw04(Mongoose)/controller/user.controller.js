@@ -50,5 +50,18 @@ module.exports = {
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
+    },
+
+    updateUser: async (req, res) => {
+        try {
+            const { userId } = req.params;
+            const { preferLang = 'ua' } = req.body;
+
+            await userService.shiftUser(userId, req.body);
+
+            res.status(resCode.OK).json(confirmMessages.USER_UPDATED[preferLang]);
+        } catch (e) {
+            res.status(resCode.BAD_REQUEST).json(e.messages);
+        }
     }
 };
