@@ -7,7 +7,7 @@ module.exports = {
         const { preferLang = 'ua' } = req.body;
 
         try {
-            await userService.createUser(req.body, preferLang);
+            await userService.createUser(req.body);
 
             res.status(resCode.CREATED).json(confirmMessages.USER_CREATED[preferLang]);
         } catch (e) {
@@ -16,10 +16,10 @@ module.exports = {
     },
 
     getAllUsers: async (req, res) => {
-        const { query, body: { preferLang = 'ua' } } = req;
+        const { query } = req;
 
         try {
-            const users = await userService.findAllUsers(query, preferLang);
+            const users = await userService.findAllUsers(query);
 
             res.status(resCode.OK).json(users);
         } catch (e) {
@@ -41,10 +41,10 @@ module.exports = {
     },
 
     getUserById: async (req, res) => {
-        const { params: { userId }, body: { preferLang = 'ua' } } = req;
+        const { params: { userId } } = req;
 
         try {
-            const user = await userService.findUserById(userId, preferLang);
+            const user = await userService.findUserById(userId);
 
             res.status(resCode.OK).json(user);
         } catch (e) {

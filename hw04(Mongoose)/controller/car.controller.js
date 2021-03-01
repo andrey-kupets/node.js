@@ -16,10 +16,10 @@ module.exports = {
     },
 
     getAllCars: async (req, res) => {
-        const { query, body: { preferLang = 'ua' } } = req;
+        const { query } = req;
 
         try {
-            const cars = await carService.findAllCars(query, preferLang);
+            const cars = await carService.findAllCars(query);
 
             res.status(resCode.OK).json(cars);
         } catch (e) {
@@ -40,10 +40,10 @@ module.exports = {
     },
 
     getCarById: async (req, res) => {
-        const { params: { carId }, body: { preferLang = 'ua' } } = req;
+        const { params: { carId } } = req;
 
         try {
-            const car = await carService.findCarById(carId, preferLang);
+            const car = await carService.findCarById(carId);
 
             res.status(resCode.OK).json(car);
         } catch (e) {

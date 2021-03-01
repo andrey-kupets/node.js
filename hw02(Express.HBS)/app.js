@@ -24,7 +24,7 @@ const expressHbs = require('express-handlebars');
 const fs = require('fs');
 const path = require('path');
 
-const dataBasePath = path.join(__dirname, 'dataBase', 'users.json');
+const dataBasePath = path.join(__dirname, 'dataBase_for_mongo', 'users.json');
 
 const app = express();
 
