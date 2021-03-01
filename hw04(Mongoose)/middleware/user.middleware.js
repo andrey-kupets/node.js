@@ -49,11 +49,21 @@ module.exports = {
 
     doesUserExist: async (req, res, next) => {
         try {
-            const { preferLang = 'ua' } = req.body;
-            const users = await userService.findAllUsers();
-            const invalidUser = users.some((user) => user.email === req.body.email);
+            // 1st var
+            // const { preferLang = 'ua' } = req.body;
+            // const users = await userService.findAllUsers();
+            // const invalidUser = users.some((user) => user.email === req.body.email);
+            //
+            // if (invalidUser) {
+            //     throw new Error(errMessages.USER_EXISTS[preferLang]);
+            // }
 
-            if (invalidUser) {
+            // 2nd var
+
+            const { email, preferLang = 'ua' } = req.body;
+            const users = await userService.findAllUsers({ email });
+
+            if (users.length) {
                 throw new Error(errMessages.USER_EXISTS[preferLang]);
             }
 

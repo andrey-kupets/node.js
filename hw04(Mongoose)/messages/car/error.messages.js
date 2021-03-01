@@ -10,7 +10,7 @@ module.exports = {
     },
 
     INVALID_EDITION: {
-        en: 'Invalid id',
+        en: 'Wrong edition year',
         ua: 'Неправильно вказано рік виробництва'
     },
 
