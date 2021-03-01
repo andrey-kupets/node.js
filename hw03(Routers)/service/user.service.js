@@ -4,8 +4,8 @@ const { promisify } = require('util');
 
 const errMessages = require('../messages/error.messages');
 
-const DB = path.join(process.cwd(), 'dataBase', 'users.json');
-// const DB = path.join(__dirname, '../', 'dataBase', 'users.json'); // or in that way
+const DB = path.join(process.cwd(), 'dataBase_for_mongo', 'users.json');
+// const DB = path.join(__dirname, '../', 'dataBase_for_mongo', 'users.json'); // or in that way
 // проверка как выйти на правильный путь __dirname vs __process.cwd()
 // console.log(__dirname)
 // console.log(process.cwd())
