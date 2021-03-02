@@ -1,40 +1,39 @@
-const resCodes = require('../constant/responseCodes.enum');
-const errMessages = require('../messages/car/error.messages');
+const { responseCodesEnum } = require('../constant');
+const { carMsg: { errorMsg } } = require('../messages');
 const carService = require('../service/car.service');
+const {
+    carValidators: { createCarValidator, findCarByQueryValidator },
+    commonValidators: { mongoIdValidator }
+} = require('../validators');
 
 module.exports = {
     isCarValid: (req, res, next) => {
         try {
-            const {
-                model, edition, preferLang = 'ua'
-            } = req.body;
+            const { error } = createCarValidator.validate(req.body);
 
-            if (!model || !edition) {
-                throw new Error(errMessages.EMPTY[preferLang]);
-            }
-
-            if (Number.isNaN(edition)) {
-                throw new Error(errMessages.INVALID_EDITION[preferLang]);
+            if (error) {
+                throw new Error(error.details[0].message);
             }
 
             next();
         } catch (e) {
-            res.status(resCodes.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
     isCarIdValid: (req, res, next) => {
         try {
             const { carId } = req.params;
-            const { preferLang = 'ua' } = req.body;
 
-            if (carId.length !== 24) {
-                throw new Error(errMessages.INVALID_ID[preferLang]);
+            const { error } = mongoIdValidator.validate(carId);
+
+            if (error) {
+                throw new Error(error.details[0].message);
             }
 
             next();
         } catch (e) {
-            res.status(resCodes.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -44,27 +43,27 @@ module.exports = {
             const cars = await carService.findAllCars(req.body);
 
             if (cars.length) {
-                throw new Error(errMessages.CAR_EXISTS[preferLang]);
+                throw new Error(errorMsg.CAR_EXISTS[preferLang]);
             }
 
             next();
         } catch (e) {
-            res.status(resCodes.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
     areNoCars: async (req, res, next) => {
         try {
-            const { preferLang = 'ua' } = req.body;
-            const users = await carService.findAllCars(req.query);
+            const cars = await carService.findAllCars(req.query);
+            const { error } = findCarByQueryValidator.validate(cars);
 
-            if (!users.length) {
-                throw new Error(errMessages.NO_CARS[preferLang]);
+            if (!cars.length) {
+                throw new Error(error.details[0].message);
             }
 
             next();
         } catch (e) {
-            res.status(resCodes.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -74,12 +73,12 @@ module.exports = {
             const car = await carService.findCarById(carId);
 
             if (!car) {
-                throw new Error(errMessages.NO_CAR[preferLang]);
+                throw new Error(errorMsg.NO_CAR[preferLang]);
             }
 
             next();
         } catch (e) {
-            res.status(resCodes.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 };

@@ -1,6 +1,6 @@
 const carService = require('../service/car.service');
 const resCode = require('../constant/responseCodes.enum');
-const confirmMessages = require('../messages/car/confirm.messages');
+const { carMsg: { confirmMsg } } = require('../messages');
 
 module.exports = {
     createCar: async (req, res) => {
@@ -9,7 +9,7 @@ module.exports = {
         try {
             await carService.createCar(req.body, preferLang);
 
-            res.status(resCode.CREATED).json(confirmMessages.CAR_CREATED[preferLang]);
+            res.status(resCode.CREATED).json(confirmMsg.CAR_CREATED[preferLang]);
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
@@ -58,7 +58,7 @@ module.exports = {
 
             await carService.shiftCar(carId, req.body);
 
-            res.status(resCode.OK).json(confirmMessages.CAR_UPDATED[preferLang]);
+            res.status(resCode.OK).json(confirmMsg.CAR_UPDATED[preferLang]);
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.messages);
         }

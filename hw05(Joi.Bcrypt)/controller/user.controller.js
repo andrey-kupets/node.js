@@ -1,6 +1,6 @@
 const userService = require('../service/user.service');
 const resCode = require('../constant/responseCodes.enum');
-const msg = require('../messages');
+const { userMsg: { confirmMsg } } = require('../messages');
 
 module.exports = {
     createUser: async (req, res) => {
@@ -9,7 +9,7 @@ module.exports = {
         try {
             await userService.createUser(req.body);
 
-            res.status(resCode.CREATED).json(msg.userMsg.confirmMsg.USER_CREATED[preferLang]);
+            res.status(resCode.CREATED).json(confirmMsg.USER_CREATED[preferLang]);
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.message);
         }
@@ -59,7 +59,7 @@ module.exports = {
 
             await userService.shiftUser(userId, req.body);
 
-            res.status(resCode.OK).json(msg.userMsg.confirmMsg.USER_UPDATED[preferLang]);
+            res.status(resCode.OK).json(confirmMsg.USER_UPDATED[preferLang]);
         } catch (e) {
             res.status(resCode.BAD_REQUEST).json(e.messages);
         }

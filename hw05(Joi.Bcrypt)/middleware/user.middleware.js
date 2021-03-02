@@ -1,12 +1,15 @@
 const { responseCodesEnum } = require('../constant');
 const { userMsg: { errorMsg } } = require('../messages');
 const userService = require('../service/user.service');
-const { commonValidators, userValidators } = require('../validators');
+const {
+    commonValidators: { mongoIdValidator },
+    userValidators: { createUserValidator, findUserByQueryValidator }
+} = require('../validators');
 
 module.exports = {
     isUserValid: (req, res, next) => {
         try {
-            const { error } = userValidators.createUserValidator.validate(req.body);
+            const { error } = createUserValidator.validate(req.body);
 
             if (error) {
                 throw new Error(error.details[0].message);
@@ -22,7 +25,7 @@ module.exports = {
         try {
             const { userId } = req.params;
 
-            const { error } = commonValidators.mongoIdValidator.validate(userId);
+            const { error } = mongoIdValidator.validate(userId);
 
             if (error) {
                 throw new Error(error.details[0].message);
@@ -64,8 +67,7 @@ module.exports = {
     areNoUsers: async (req, res, next) => {
         try {
             const users = await userService.findAllUsers(req.query);
-
-            const { error } = userValidators.findUserByQueryValidator.validate(users);
+            const { error } = findUserByQueryValidator.validate(users);
 
             if (!users.length) {
                 throw new Error(error.details[0].message);

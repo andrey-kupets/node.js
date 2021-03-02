@@ -13,7 +13,7 @@ module.exports = Joi.object({
         .alphanum()
         .min(2)
         .max(30)
-        .allow('X Æ A-Xii')
+        // .allow('X Æ A-Xii')
         .required(),
     email: Joi.string().regex(regexpEnum.EMAIL_REGEXP).required(),
     password: Joi.string().regex(regexpEnum.PASSWORD_REGEXP).required(),
