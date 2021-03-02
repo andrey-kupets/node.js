@@ -1,17 +1,21 @@
-const userService = require('../service/user.service');
-const resCode = require('../constant/responseCodes.enum');
+const { userService } = require('../service');
+const { responseCodesEnum } = require('../constant');
 const { userMsg: { confirmMsg } } = require('../messages');
+const { passwordHasher } = require('../helpers');
 
 module.exports = {
     createUser: async (req, res) => {
         const { preferLang = 'ua' } = req.body;
 
         try {
-            await userService.createUser(req.body);
+            const { password } = req.body;
+            const hashPassword = await passwordHasher.hash(password);
 
-            res.status(resCode.CREATED).json(confirmMsg.USER_CREATED[preferLang]);
+            await userService.createUser({ ...req.body, password: hashPassword });
+
+            res.status(responseCodesEnum.CREATED).json(confirmMsg.USER_CREATED[preferLang]);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -21,9 +25,9 @@ module.exports = {
         try {
             const users = await userService.findAllUsers(query);
 
-            res.status(resCode.OK).json(users);
+            res.status(responseCodesEnum.OK).json(users);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -34,9 +38,9 @@ module.exports = {
             await userService.deleteUser(userId);
 
             // eslint-disable-next-line max-len
-            res.json('User is deleted').status(resCode.NO_CONTENT); // если ставить статус 204 No Content -  то он(если будет идти первым по коду) перебивает инфо джейсона json('User is deleted') и на выходе будет пустота
+            res.json('User is deleted').status(responseCodesEnum.NO_CONTENT); // если ставить статус 204 No Content -  то он(если будет идти первым по коду) перебивает инфо джейсона json('User is deleted') и на выходе будет пустота
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -46,9 +50,9 @@ module.exports = {
         try {
             const user = await userService.findUserById(userId);
 
-            res.status(resCode.OK).json(user);
+            res.status(responseCodesEnum.OK).json(user);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -59,9 +63,9 @@ module.exports = {
 
             await userService.shiftUser(userId, req.body);
 
-            res.status(resCode.OK).json(confirmMsg.USER_UPDATED[preferLang]);
+            res.status(responseCodesEnum.OK).json(confirmMsg.USER_UPDATED[preferLang]);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.messages);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.messages);
         }
     }
 };

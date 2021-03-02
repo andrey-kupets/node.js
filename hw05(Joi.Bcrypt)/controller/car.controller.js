@@ -1,5 +1,5 @@
-const carService = require('../service/car.service');
-const resCode = require('../constant/responseCodes.enum');
+const { carService } = require('../service');
+const { responseCodesEnum } = require('../constant');
 const { carMsg: { confirmMsg } } = require('../messages');
 
 module.exports = {
@@ -9,9 +9,9 @@ module.exports = {
         try {
             await carService.createCar(req.body, preferLang);
 
-            res.status(resCode.CREATED).json(confirmMsg.CAR_CREATED[preferLang]);
+            res.status(responseCodesEnum.CREATED).json(confirmMsg.CAR_CREATED[preferLang]);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -21,9 +21,9 @@ module.exports = {
         try {
             const cars = await carService.findAllCars(query);
 
-            res.status(resCode.OK).json(cars);
+            res.status(responseCodesEnum.OK).json(cars);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -33,9 +33,9 @@ module.exports = {
         try {
             await carService.deleteCar(carId);
 
-            res.json('Car is deleted').status(resCode.NO_CONTENT);
+            res.json('Car is deleted').status(responseCodesEnum.NO_CONTENT);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -45,9 +45,9 @@ module.exports = {
         try {
             const car = await carService.findCarById(carId);
 
-            res.status(resCode.OK).json(car);
+            res.status(responseCodesEnum.OK).json(car);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.message);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
 
@@ -58,9 +58,9 @@ module.exports = {
 
             await carService.shiftCar(carId, req.body);
 
-            res.status(resCode.OK).json(confirmMsg.CAR_UPDATED[preferLang]);
+            res.status(responseCodesEnum.OK).json(confirmMsg.CAR_UPDATED[preferLang]);
         } catch (e) {
-            res.status(resCode.BAD_REQUEST).json(e.messages);
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.messages);
         }
     }
 };

@@ -1,5 +1,5 @@
-const User = require('../models/User');
-require('../models/Car'); // SUPER WORK!!
+const { User } = require('../models');
+require('../models'); // SUPER WORK!!
 
 module.exports = {
     createUser: (userObj) => User.create(userObj),

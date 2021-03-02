@@ -1,4 +1,4 @@
-const Car = require('../models/Car');
+const { Car } = require('../models');
 
 module.exports = {
     createCar: (carObj) => Car.create(carObj),
