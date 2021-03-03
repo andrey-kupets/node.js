@@ -1,5 +1,5 @@
 {
-  "name": "node_hw03",
+  "name": "hw04",
   "version": "1.0.0",
   "main": "app.js",
   "dependencies": {
@@ -13,5 +13,5 @@
   "author": "",
   "license": "ISC",
   "keywords": [],
-  "description": ""
+  "description": "hw05"
 }
