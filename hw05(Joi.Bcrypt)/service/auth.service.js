@@ -1,5 +1,5 @@
 const { passwordHasher } = require('../helpers');
 
 module.exports = {
-    authorize: (password, userObj) => passwordHasher.compare(password, userObj.password)
+    authorize: (password, userObj, preferLang) => passwordHasher.compare(password, userObj.password, preferLang)
 };
