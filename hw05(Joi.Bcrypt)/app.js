@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const { MONGO_URL, PORT } = require('./config/config');
-const { apiRouter } = require('./router');
+const apiRouter = require('./router/api.router'); // крашится апка, если апи.роутер деструктуризировать с ./router,
 
 const app = express();
 

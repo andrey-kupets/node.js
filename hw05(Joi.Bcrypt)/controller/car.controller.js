@@ -1,6 +1,6 @@
+const { carMsg: { confirmMsg } } = require('../messages');
 const { carService } = require('../service');
 const { responseCodesEnum } = require('../constant');
-const { carMsg: { confirmMsg } } = require('../messages');
 
 module.exports = {
     createCar: async (req, res) => {

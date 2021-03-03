@@ -1,7 +1,7 @@
-const { userService } = require('../service');
+const { passwordHasher } = require('../helpers');
 const { responseCodesEnum } = require('../constant');
 const { userMsg: { confirmMsg } } = require('../messages');
-const { passwordHasher } = require('../helpers');
+const { userService } = require('../service');
 
 module.exports = {
     createUser: async (req, res) => {
