@@ -15,7 +15,7 @@ module.exports = {
     },
 
     ACCESS_TOKEN_IS_NOT_VALID_VERIFY: {
-        en: 'Access token is not valid',
-        ua: 'Аксес токен не є валідним'
+        en: 'Access token is not valid (verification)',
+        ua: 'Аксес токен не є валідним (верифікація)'
     }
 };
