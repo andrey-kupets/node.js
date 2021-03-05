@@ -37,7 +37,7 @@ module.exports = {
         try {
             await userService.deleteUser(userId);
 
-            if (userId !== req.user.id) { // .toString()
+            if (userId !== req.user.id) { // _id.toString()
                 throw new Error('Unauthorized');
             }
 
