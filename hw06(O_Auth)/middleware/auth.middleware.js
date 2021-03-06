@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 const { authMsg: { errorMsg } } = require('../messages');
+const { authService } = require('../service');
 const { authValidators: { authValidator } } = require('../validators');
 const { constants: { AUTHORIZATION } } = require('../constant');
-const { JWT_SECRET } = require('../config/config');
-const { O_Auth } = require('../models');// for service
+const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/config');
 const { responseCodesEnum } = require('../constant');
 
 module.exports = {
@@ -37,7 +37,7 @@ module.exports = {
                 }
             });
 
-            const tokens = await O_Auth.findOne({ access_token }).populate('_user_id');
+            const tokens = await authService.findTokensByParams({ access_token }).populate('_user_id');
 
             if (!tokens) {
                 throw new Error(errorMsg.ACCESS_TOKEN_IS_NOT_VALID[prefLang]);
@@ -51,6 +51,34 @@ module.exports = {
         } catch (e) {
             // next(e);
             res.json(e.message);
+        }
+    },
+
+    checkRefreshToken: async (req, res, next) => {
+        try {
+            const { prefLang = 'ua' } = req.body;
+            const refresh_token = req.get(AUTHORIZATION);
+
+            if (!refresh_token) {
+                throw new Error(errorMsg.REFRESH_TOKEN_IS_REQUIRED[prefLang]);
+            }
+
+            jwt.verify(refresh_token, JWT_REFRESH_SECRET, (err) => {
+                if (err) {
+                    throw new Error(errorMsg.REFRESH_TOKEN_IS_NOT_VALID_VERIFY[prefLang]);
+                }
+            });
+
+            const tokens = await authService.findTokensByParams({ refresh_token });
+
+            if (!tokens) {
+                throw new Error(errorMsg.REFRESH_TOKEN_IS_NOT_VALID[prefLang]);
+            }
+
+            req.tokenInfo = tokens;
+            next();
+        } catch (e) {
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     }
 };

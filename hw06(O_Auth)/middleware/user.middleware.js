@@ -93,4 +93,22 @@ module.exports = {
             res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
         }
     },
+
+    doesUserPresent: async (req, res, next) => {
+        try {
+            const { email } = req.body;
+
+            const user = await userService.findUserByEmail({ email });
+
+            if (!user) {
+                throw new Error('NO USER');
+            }
+
+            req.user = user;
+
+            next();
+        } catch (e) {
+            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+        }
+    }
 };

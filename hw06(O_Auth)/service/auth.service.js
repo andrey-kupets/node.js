@@ -1,6 +1,13 @@
 const { O_Auth } = require('../models');
+const { tokenizer } = require('../helpers');
 
 module.exports = {
-    authorize: (tokens) => O_Auth.create(tokens),
-    deleteTokens: (tokens) => O_Auth.deleteOne(tokens)
+    createRecord: async (userId) => {
+        const tokens = tokenizer();
+        await O_Auth.create({ _user_id: userId, ...tokens });
+
+        return tokens;
+    },
+    findTokensByParams: (token) => O_Auth.findOne(token),
+    updateById: (id, updatedObj) => O_Auth.findByIdAndUpdate(id, updatedObj)
 };

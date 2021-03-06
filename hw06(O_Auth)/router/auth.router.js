@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
 const { authController } = require('../controller');
-const { authMiddlewares } = require('../middleware');
+const { authMiddlewares, userMiddlewares } = require('../middleware');
 
-router.post('/', authMiddlewares.authValid, authController.authUser);
-router.post('/reset', authMiddlewares.authValid, authController.reAuthUser);
+router.post('/', userMiddlewares.doesUserPresent, authMiddlewares.authValid, authController.authUser);
+router.post('/refresh', authMiddlewares.checkRefreshToken, authController.refreshToken);
 
 module.exports = router;

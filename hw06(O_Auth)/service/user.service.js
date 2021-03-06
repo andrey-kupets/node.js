@@ -10,5 +10,7 @@ module.exports = {
 
     findUserById: (userId) => User.findById(userId),
 
+    findUserByEmail: (email) => User.findOne(email).select('+password'),
+
     shiftUser: (userId, newUserObj) => User.findByIdAndUpdate(userId, newUserObj)
 };
