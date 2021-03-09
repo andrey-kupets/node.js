@@ -5,24 +5,24 @@ const { responseCodesEnum } = require('../constant');
 const { userMsg: { confirmMsg } } = require('../messages');
 
 module.exports = {
-    createUser: async (req, res) => {
+    createUser: async (req, res, next) => {
         const { preferLang = 'ua' } = req.body;
 
         try {
-            const { email, password } = req.body;
+            const { email, name, password } = req.body;
             const hashPassword = await passwordHasher.hash(password);
 
             await userService.createUser({ ...req.body, password: hashPassword });
 
-            await mailService.sendMail(email, WELCOME, { userName: email });
+            await mailService.sendMail(email, WELCOME, { userName: name });
 
             res.status(responseCodesEnum.CREATED).json(confirmMsg.USER_CREATED[preferLang]);
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
-    getAllUsers: async (req, res) => {
+    getAllUsers: async (req, res, next) => {
         const { query } = req;
 
         try {
@@ -30,11 +30,11 @@ module.exports = {
 
             res.status(responseCodesEnum.OK).json(users);
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
-    deleteUser: async (req, res) => {
+    deleteUser: async (req, res, next) => {
         const { params: { userId } } = req;
 
         try {
@@ -47,11 +47,11 @@ module.exports = {
             // eslint-disable-next-line max-len
             res.json('User is deleted').status(responseCodesEnum.NO_CONTENT); // если ставить статус 204 No Content -  то он(если будет идти первым по коду) перебивает инфо джейсона json('User is deleted') и на выходе будет пустота
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
-    getUserById: async (req, res) => {
+    getUserById: async (req, res, next) => {
         const { params: { userId } } = req;
 
         try {
@@ -59,11 +59,11 @@ module.exports = {
 
             res.status(responseCodesEnum.OK).json(user);
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
-    updateUser: async (req, res) => {
+    updateUser: async (req, res, next) => {
         try {
             const { userId } = req.params;
             const { preferLang = 'ua' } = req.body;
@@ -72,7 +72,7 @@ module.exports = {
 
             res.status(responseCodesEnum.OK).json(confirmMsg.USER_UPDATED[preferLang]);
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.messages);
+            next(e);
         }
     }
 };

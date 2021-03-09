@@ -1,5 +1,11 @@
 const { responseCodesEnum } = require('../constant');
-const { userMsg: { errorMsg } } = require('../messages');
+const {
+    BAD_REQUEST,
+    JOI_VALIDATION,
+    NO_USER,
+    USER_EXISTS
+} = require('../messages/error.messages');
+const ErrorHandler = require('../messages/ErrorHandler');
 const userService = require('../service/user.service');
 const {
     commonValidators: { mongoIdValidator },
@@ -12,12 +18,12 @@ module.exports = {
             const { error } = createUserValidator.validate(req.body);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, BAD_REQUEST.customCode, error.details[0].message);
             }
 
             next();
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
@@ -28,12 +34,12 @@ module.exports = {
             const { error } = mongoIdValidator.validate(userId);
 
             if (error) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, JOI_VALIDATION.customCode, error.details[0].message);
             }
 
             next();
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
@@ -51,16 +57,16 @@ module.exports = {
 
             // 2nd var
 
-            const { email, preferLang = 'ua' } = req.body;
+            const { email } = req.body;
             const users = await userService.findAllUsers({ email });
 
             if (users.length) {
-                throw new Error(errorMsg.USER_EXISTS[preferLang]);
+                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, USER_EXISTS.customCode);
             }
 
             next();
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
@@ -70,27 +76,27 @@ module.exports = {
             const { error } = findUserByQueryValidator.validate(users);
 
             if (!users.length) {
-                throw new Error(error.details[0].message);
+                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, JOI_VALIDATION.customCode, error.details[0].message);
             }
 
             next();
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
     isNoUser: async (req, res, next) => {
         try {
-            const { params: { userId }, body: { preferLang = 'ua' } } = req;
+            const { params: { userId } } = req;
             const user = await userService.findUserById(userId);
 
             if (!user) {
-                throw new Error(errorMsg.NO_USER[preferLang]);
+                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, NO_USER.customCode);
             }
 
             next();
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
@@ -108,7 +114,7 @@ module.exports = {
 
             next();
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     }
 };

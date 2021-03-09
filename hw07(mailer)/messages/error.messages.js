@@ -1,31 +1,49 @@
 module.exports = {
-    // AUTH
+    // BAD_REQUEST
+    BAD_REQUEST: {
+        customCode: 4000
+    },
+
+    // JOI
+    JOI_VALIDATION: {
+        customCode: 4001
+    },
+
+    // AUTH - BAD REQUEST
     WRONG_EMAIL_OR_PASSWORD: {
-        customCode: 4011
+        customCode: 4002
     },
 
     ACCESS_TOKEN_IS_REQUIRED: {
-        customCode: 4012
+        customCode: 4003
     },
 
     REFRESH_TOKEN_IS_REQUIRED: {
-        customCode: 4013
+        customCode: 4004
     },
 
+    INCORRECT_EMAIL_ACTION: {
+        customCode: 4005,
+        en: 'Incorrect email action',
+        ua: 'Некорректна дія в електронній пошті',
+    },
+
+    // AUTH -UNAUTHORIZED
     ACCESS_TOKEN_IS_NOT_VALID: {
-        customCode: 4014
+        customCode: 4011
     },
 
     REFRESH_TOKEN_IS_NOT_VALID: {
-        customCode: 4015
+        customCode: 4012
     },
 
+    // AUTH - FORBIDDEN
     ACCESS_TOKEN_IS_NOT_VALID_VERIFY: {
-        customCode: 4016
+        customCode: 4031
     },
 
     REFRESH_TOKEN_IS_NOT_VALID_VERIFY: {
-        customCode: 4017
+        customCode: 4032
     },
 
     // MUTUAL FOR CAR & USER

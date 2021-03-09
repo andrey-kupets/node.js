@@ -4,7 +4,7 @@ const { passwordHasher, tokenizer } = require('../helpers');
 const { responseCodesEnum } = require('../constant');
 
 module.exports = {
-    authUser: async (req, res) => {
+    authUser: async (req, res, next) => {
         try {
             const { body: { password, preferLang = 'ua' }, user } = req;
 
@@ -15,11 +15,11 @@ module.exports = {
             res.json(tokens);
             res.status(responseCodesEnum.OK).json(confirmMsg.USER_AUTH[preferLang]);
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     },
 
-    refreshToken: async (req, res) => {
+    refreshToken: async (req, res, next) => {
         try {
             const { _user_id, _id } = req.tokenInfo;
             const tokens = tokenizer();
@@ -28,7 +28,7 @@ module.exports = {
 
             res.json(tokens).status(responseCodesEnum.OK);
         } catch (e) {
-            res.status(responseCodesEnum.BAD_REQUEST).json(e.message);
+            next(e);
         }
     }
 };
