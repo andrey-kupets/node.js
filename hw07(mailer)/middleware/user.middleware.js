@@ -1,6 +1,7 @@
 const { responseCodesEnum } = require('../constant');
 const {
     BAD_REQUEST,
+    INCORRECT_USER,
     JOI_VALIDATION,
     NO_USER,
     USER_EXISTS
@@ -27,14 +28,19 @@ module.exports = {
         }
     },
 
-    isUserIdValid: (req, res, next) => {
+    isUserIdValid: async (req, res, next) => {
         try {
             const { userId } = req.params;
+            const user = await userService.findUserById(userId);
 
             const { error } = mongoIdValidator.validate(userId);
 
             if (error) {
                 throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, JOI_VALIDATION.customCode, error.details[0].message);
+            }
+
+            if (userId !== user.id) {
+                throw new ErrorHandler(responseCodesEnum.UNAUTHORIZED, INCORRECT_USER.customCode);
             }
 
             next();

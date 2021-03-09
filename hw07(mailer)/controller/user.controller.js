@@ -38,10 +38,6 @@ module.exports = {
         const { params: { userId }, user } = req;
 
         try {
-            if (userId !== user.id) {
-                throw new Error('Unauthorized');
-            }
-
             await userService.deleteUser(userId);
 
             await mailService.sendMail(user.email, DELETION_OF_ACC, { userName: user.name });
