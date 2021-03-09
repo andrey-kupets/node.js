@@ -1,5 +1,5 @@
 module.exports = {
-    WELLCOME: 'one', // not principal
-    USER__IS_BLOCKED: 'two',
+    WELCOME: 'one', // not principal
+    USER_IS_BLOCKED: 'two',
     PASSWORD_IS_CHANGED: 'three'
 };

@@ -1,17 +1,20 @@
+const { emailActionsEnum: { WELCOME } } = require('../constant');
+const { mailService, userService } = require('../service');
 const { passwordHasher } = require('../helpers');
 const { responseCodesEnum } = require('../constant');
 const { userMsg: { confirmMsg } } = require('../messages');
-const { userService } = require('../service');
 
 module.exports = {
     createUser: async (req, res) => {
         const { preferLang = 'ua' } = req.body;
 
         try {
-            const { password } = req.body;
+            const { email, password } = req.body;
             const hashPassword = await passwordHasher.hash(password);
 
             await userService.createUser({ ...req.body, password: hashPassword });
+
+            await mailService.sendMail(email, WELCOME, { userName: email });
 
             res.status(responseCodesEnum.CREATED).json(confirmMsg.USER_CREATED[preferLang]);
         } catch (e) {

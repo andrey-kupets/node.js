@@ -1,9 +1,17 @@
-const mailer = require('nodemailer');
-// const EmailTemplates = require('email-templates');
+const nodemailer = require('nodemailer');
+const EmailTemplates = require('email-templates');
+const path = require('path');
 
 const { ROOT_EMAIL, ROOT_EMAIL_PASSWORD } = require('../config/config');
+const templatesInfo = require('../email-templates');
 
-const transporterMail = mailer.createTransport({
+const templateParser = new EmailTemplates({
+    views: {
+        root: path.join(process.cwd(), 'email-templates')
+    }
+});
+
+const transporterMail = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: ROOT_EMAIL,
@@ -11,13 +19,21 @@ const transporterMail = mailer.createTransport({
     }
 });
 
-const sendMail = (userMail) => {
+const sendMail = async (userMail, action, context) => {
     try {
+        const templateInfo = templatesInfo[action];
+
+        if (!templateInfo) {
+            throw new Error('Wrong mail action'); // todo
+        }
+
+        const html = await templateParser.render(templateInfo.templateName, context);
+
         return transporterMail.sendMail({
             from: 'NowhereMan',
             to: userMail,
-            subject: 'xxx',
-            html: ''
+            subject: templateInfo.subject,
+            html // совпадают ключ и велью
         });
     } catch (e) {
         console.log(e);

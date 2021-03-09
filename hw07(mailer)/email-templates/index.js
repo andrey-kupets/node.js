@@ -6,12 +6,12 @@ module.exports = {
         subject: 'Ya have to change a password'
     },
 
-    [emailActionsEnum.USER__IS_BLOCKED]: {
-        templateName: '222',
-        subject: 'Sorry.....your acc was blocked'
+    [emailActionsEnum.USER_IS_BLOCKED]: {
+        templateName: 'user-is-blocked',
+        subject: 'Acc was blocked'
     },
 
-    [emailActionsEnum.WELLCOME]: {
+    [emailActionsEnum.WELCOME]: {
         templateName: 'welcome',
         subject: 'Welcome to our brotherhood'
     }
