@@ -4,6 +4,7 @@ const { authMsg: { errorMsg } } = require('../messages');
 const { authService } = require('../service');
 const { authValidators: { authValidator } } = require('../validators');
 const { constants: { AUTHORIZATION } } = require('../constant');
+// const ErrorHandler = require('../messages/ErrorHandler');
 const { JWT_SECRET, JWT_REFRESH_SECRET } = require('../config/config');
 const { responseCodesEnum } = require('../constant');
 
@@ -49,8 +50,7 @@ module.exports = {
 
             next();
         } catch (e) {
-            // next(e);
-            res.json(e.message);
+            next(e);
         }
     },
 
