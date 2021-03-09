@@ -1,7 +1,10 @@
-const nodemailer = require('nodemailer');
 const EmailTemplates = require('email-templates');
+const nodemailer = require('nodemailer');
 const path = require('path');
 
+const ErrorHandler = require('../messages/ErrorHandler');
+const { INCORRECT_ACTION } = require('../messages/error.messages');
+const { responseCodesEnum } = require('../constant');
 const { ROOT_EMAIL, ROOT_EMAIL_PASSWORD } = require('../config/config');
 const templatesInfo = require('../email-templates');
 
@@ -24,7 +27,9 @@ const sendMail = async (userMail, action, context) => {
         const templateInfo = templatesInfo[action];
 
         if (!templateInfo) {
-            throw new Error('Wrong mail action'); // todo
+            throw new ErrorHandler(responseCodesEnum.BAD_REQUEST,
+                INCORRECT_ACTION.customCode,
+                INCORRECT_ACTION.ua);
         }
 
         const html = await templateParser.render(templateInfo.templateName, context);

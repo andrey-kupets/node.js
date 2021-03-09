@@ -22,13 +22,17 @@ module.exports = {
         customCode: 4004
     },
 
-    INCORRECT_EMAIL_ACTION: {
+    INCORRECT_ACTION: {
         customCode: 4005,
-        en: 'Incorrect email action',
-        ua: 'Некорректна дія в електронній пошті',
+        en: 'Incorrect action',
+        ua: 'Некоректна дія',
     },
 
     // AUTH -UNAUTHORIZED
+    INCORRECT_USER: {
+        customCode: 4010
+    },
+
     ACCESS_TOKEN_IS_NOT_VALID: {
         customCode: 4011
     },

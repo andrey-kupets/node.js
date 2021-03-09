@@ -1,4 +1,4 @@
-const { emailActionsEnum: { WELCOME } } = require('../constant');
+const { emailActionsEnum: { CREATION_OF_ACC, DELETION_OF_ACC } } = require('../constant');
 const { mailService, userService } = require('../service');
 const { passwordHasher } = require('../helpers');
 const { responseCodesEnum } = require('../constant');
@@ -14,7 +14,7 @@ module.exports = {
 
             await userService.createUser({ ...req.body, password: hashPassword });
 
-            await mailService.sendMail(email, WELCOME, { userName: name });
+            await mailService.sendMail(email, CREATION_OF_ACC, { userName: name }); // нейм - обязательное поле при создании юзера
 
             res.status(responseCodesEnum.CREATED).json(confirmMsg.USER_CREATED[preferLang]);
         } catch (e) {
@@ -35,14 +35,16 @@ module.exports = {
     },
 
     deleteUser: async (req, res, next) => {
-        const { params: { userId } } = req;
+        const { params: { userId }, user } = req;
 
         try {
-            await userService.deleteUser(userId);
-
-            if (userId !== req.user.id) { // _id.toString()
+            if (userId !== user.id) {
                 throw new Error('Unauthorized');
             }
+
+            await userService.deleteUser(userId);
+
+            await mailService.sendMail(user.email, DELETION_OF_ACC, { userName: user.name });
 
             // eslint-disable-next-line max-len
             res.json('User is deleted').status(responseCodesEnum.NO_CONTENT); // если ставить статус 204 No Content -  то он(если будет идти первым по коду) перебивает инфо джейсона json('User is deleted') и на выходе будет пустота

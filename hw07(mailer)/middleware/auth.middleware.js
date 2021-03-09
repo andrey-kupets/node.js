@@ -4,7 +4,7 @@ const {
     ACCESS_TOKEN_IS_REQUIRED,
     ACCESS_TOKEN_IS_NOT_VALID,
     ACCESS_TOKEN_IS_NOT_VALID_VERIFY,
-    JOI_VALIDATION_ERROR,
+    JOI_VALIDATION,
     REFRESH_TOKEN_IS_REQUIRED,
     REFRESH_TOKEN_IS_NOT_VALID,
     REFRESH_TOKEN_IS_NOT_VALID_VERIFY
@@ -22,7 +22,7 @@ module.exports = {
             const { error } = authValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, JOI_VALIDATION_ERROR.customCode);
+                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, JOI_VALIDATION.customCode, error.details[0].message);
             }
 
             next();
