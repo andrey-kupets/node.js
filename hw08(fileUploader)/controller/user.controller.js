@@ -15,7 +15,7 @@ module.exports = {
                 body: {
                     email, name, password, preferLang = 'ua'
                 },
-                avatar
+                avatar, docs, videos
             } = req;
             const hashPassword = await passwordHasher.hash(password);
             const user = await userService.createUser({ ...req.body, password: hashPassword });
@@ -34,8 +34,8 @@ module.exports = {
                 await userService.updateUserById(user._id, { avatar: uploadPath });
             }
 
-            if (req.docs) {
-                for (const doc of req.docs) {
+            if (docs) {
+                for (const doc of docs) {
                     const { finalFilePath, uploadPath, filesDir } = _filesDirBuilder(doc.name, 'docs', user._id);
 
                     // eslint-disable-next-line no-await-in-loop
@@ -47,8 +47,8 @@ module.exports = {
                 }
             }
 
-            if (req.videos) {
-                for (const video of req.videos) {
+            if (videos) {
+                for (const video of videos) {
                     const { finalFilePath, uploadPath, filesDir } = _filesDirBuilder(video.name, 'videos', user._id);
 
                     // eslint-disable-next-line no-await-in-loop

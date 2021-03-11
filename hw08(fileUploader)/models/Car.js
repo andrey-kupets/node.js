@@ -6,7 +6,10 @@ const carSchema = new Schema({
     model: { type: String, required: true },
     edition: { type: Number, required: true },
     power_hp: { type: Number },
-    color: { type: String }
+    color: { type: String },
+    photos: [{ type: String }],
+    docs: [{ type: String }],
+    videos: [{ type: String }]
 }, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 module.exports = model(CAR, carSchema);

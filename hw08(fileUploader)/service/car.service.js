@@ -9,5 +9,7 @@ module.exports = {
 
     findCarById: (carId) => Car.findById(carId),
 
-    shiftCar: (carId, newCarObj) => Car.findByIdAndUpdate(carId, newCarObj)
+    shiftCar: (carId, newCarObj) => Car.findByIdAndUpdate(carId, newCarObj),
+
+    updateCarById: (carId, updatedObject) => Car.updateOne({ _id: carId }, { $set: updatedObject })
 };

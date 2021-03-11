@@ -14,5 +14,5 @@ module.exports = {
 
     shiftUser: (userId, newUserObj) => User.findByIdAndUpdate(userId, newUserObj),
 
-    updateUserById: (userId, updateObject) => User.updateOne({ _id: userId }, { $set: updateObject })
+    updateUserById: (userId, updatedObject) => User.updateOne({ _id: userId }, { $set: updatedObject })
 };

@@ -1,10 +1,11 @@
 const router = require('express').Router();
 
 const { carController } = require('../controller');
-const { carMiddlewares } = require('../middleware');
+const { carMiddlewares, fileMiddlewares } = require('../middleware');
 
 router.route('/')
     .post(
+        fileMiddlewares.checkFile,
         carMiddlewares.isCarValid,
         carMiddlewares.doesCarExist,
         carController.createCar
