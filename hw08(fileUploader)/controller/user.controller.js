@@ -34,6 +34,19 @@ module.exports = {
                 await userService.updateUserById(user._id, { avatar: uploadPath });
             }
 
+            if (req.docs) {
+                for (const doc of req.docs) {
+                    const { finalFilePath, uploadPath, filesDir } = _filesDirBuilder(doc.name, 'docs', user._id);
+
+                    // eslint-disable-next-line no-await-in-loop
+                    await fs.mkdir(filesDir, { recursive: true });
+                    // eslint-disable-next-line no-await-in-loop
+                    await doc.mv(finalFilePath);
+                    // eslint-disable-next-line no-await-in-loop
+                    await userService.updateUserById(user._id, { doc: uploadPath });
+                }
+            }
+
             if (req.videos) {
                 for (const video of req.videos) {
                     const { finalFilePath, uploadPath, filesDir } = _filesDirBuilder(video.name, 'videos', user._id);

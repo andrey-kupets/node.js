@@ -7,7 +7,9 @@ const userSchema = new Schema({
     email: { type: String, required: true },
     password: { type: String, select: false },
     cars: [{ type: Schema.Types.ObjectId }],
-    avatar: { type: String }
+    avatar: { type: String },
+    docs: [{ type: String }],
+    videos: [{ type: String }]
 }, { timestamps: true, toObject: { virtuals: true }, toJSON: { virtuals: true } });
 
 userSchema.virtual('full_userData').get(function() {
