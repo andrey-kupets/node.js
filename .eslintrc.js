@@ -41,7 +41,6 @@ module.exports = {
             4,
             { SwitchCase: 1 },
         ],
-        'linebreak-style': 'off',
         'max-classes-per-file': 'off',
         'newline-per-chained-call': 'error',
         'new-parens': 'error',
@@ -86,6 +85,7 @@ module.exports = {
             { ignoreArrayIndexes: true },
         ],
         'no-multi-spaces': 'error',
+        'linebreak-style': 0,
         'no-multi-str': 'error',
         'no-multiple-empty-lines': 'error',
         'no-new': 'error',
@@ -125,6 +125,7 @@ module.exports = {
         ],
         'padding-line-between-statements': 'error',
         'prefer-const': 'error',
+        'prefer-object-spread': 0,
         'quote-props': [
             'error',
             'as-needed',
