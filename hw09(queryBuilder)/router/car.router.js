@@ -11,7 +11,7 @@ router.route('/')
         carController.createCar
     )
     .get(
-        // carMiddlewares.areNoCars, // queryBuilder vs Joi
+        carMiddlewares.areNoCars, // queryBuilder vs Joi
         carController.getAllCars
     );
 
