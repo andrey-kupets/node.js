@@ -3,7 +3,7 @@ const { userMsg: { errorMsg } } = require('../messages');
 const userService = require('../service/user.service');
 const {
     commonValidators: { mongoIdValidator },
-    userValidators: { createUserValidator, findUserByQueryValidator }
+    userValidators: { createUserValidator }
 } = require('../validators');
 
 module.exports = {
@@ -64,14 +64,16 @@ module.exports = {
         }
     },
 
-    areNoUsers: async (req, res, next) => {
+    areNoUsers: async (req, res, next) => { // лучше вообщене выводить ошибку, а получать пустой массив
         try {
+            const { preferLang = 'ua' } = req.body;
             const users = await userService.findAllUsers(req.query);
-            const { error } = findUserByQueryValidator.validate(users);
 
             if (!users.length) {
-                throw new Error(error.details[0].message);
+                throw new Error(errorMsg.NO_USERS[preferLang]);
             }
+
+            next();
 
             next();
         } catch (e) {

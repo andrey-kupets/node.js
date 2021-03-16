@@ -10,7 +10,7 @@ router.route('/')
         carController.createCar
     )
     .get(
-        carMiddlewares.areNoCars,
+        // carMiddlewares.areNoCars, // нельзя выдавать ошибку, если не нашлось по запросу, -- выводить пустой массив
         carController.getAllCars
     );
 

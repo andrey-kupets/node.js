@@ -4,13 +4,14 @@ const {
     INCORRECT_USER,
     JOI_VALIDATION,
     NO_USER,
+    NO_USERS,
     USER_EXISTS
 } = require('../messages/error.messages');
 const ErrorHandler = require('../messages/ErrorHandler');
 const userService = require('../service/user.service');
 const {
     commonValidators: { mongoIdValidator },
-    userValidators: { createUserValidator, findUserByQueryValidator }
+    userValidators: { createUserValidator }
 } = require('../validators');
 
 module.exports = {
@@ -76,13 +77,12 @@ module.exports = {
         }
     },
 
-    areNoUsers: async (req, res, next) => {
+    areNoUsers: async (req, res, next) => { // лучше вообще не выводить ошибку, а получать пустой массив
         try {
             const users = await userService.findAllUsers(req.query);
-            const { error } = findUserByQueryValidator.validate(users);
 
             if (!users.length) {
-                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, JOI_VALIDATION.customCode, error.details[0].message);
+                throw new ErrorHandler(responseCodesEnum.BAD_REQUEST, NO_USERS.customCode);
             }
 
             next();

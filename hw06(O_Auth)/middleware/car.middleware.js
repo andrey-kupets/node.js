@@ -2,7 +2,7 @@ const { responseCodesEnum } = require('../constant');
 const { carMsg: { errorMsg } } = require('../messages');
 const carService = require('../service/car.service');
 const {
-    carValidators: { createCarValidator, findCarByQueryValidator },
+    carValidators: { createCarValidator },
     commonValidators: { mongoIdValidator }
 } = require('../validators');
 
@@ -54,11 +54,11 @@ module.exports = {
 
     areNoCars: async (req, res, next) => {
         try {
-            const cars = await carService.findAllCars(req.query);
-            const { error } = findCarByQueryValidator.validate(cars);
+            const { preferLang = 'ua' } = req.body;
+            const users = await carService.findAllCars(req.query);
 
-            if (!cars.length) {
-                throw new Error(error.details[0].message);
+            if (!users.length) {
+                throw new Error(errorMsg.NO_CARS[preferLang]);
             }
 
             next();
