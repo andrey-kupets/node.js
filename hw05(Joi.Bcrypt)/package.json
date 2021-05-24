@@ -4,6 +4,7 @@
   "main": "app.js",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.0",
     "mongoose": "^5.11.18"

@@ -3,6 +3,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
 
 dotenv.config({ path: path.join(process.cwd(), '../.env') });
 // dotenv.config(); тогда нужно прописать правильно путь в терминале
@@ -14,6 +15,7 @@ const app = express();
 
 _connectDB();
 
+app.use(cors());
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
