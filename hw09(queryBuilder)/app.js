@@ -8,6 +8,8 @@ const cors = require('cors');
 dotenv.config({ path: path.join(process.cwd(), '../.env') });
 // dotenv.config(); тогда нужно прописать правильно путь в терминале
 
+const cronRun = require('./cron-jobs');
+
 const { MONGO_URL, PORT } = require('./config/config');
 const apiRouter = require('./router/api.router'); // крашится апка, если апи.роутер деструктуризировать с ./router,
 
@@ -26,27 +28,28 @@ app.use('/', apiRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use('*', (err, req, res, next) => {
-    res
-        .status(err.status || 500)
-        .json({
-            customCode: err.customcode || 0,
-            message: err.message || ''
-        });
+  res
+    .status(err.status || 500)
+    .json({
+      customCode: err.customcode || 0,
+      message: err.message || ''
+    });
 });
 
 app.listen(PORT, () => {
-    console.log(`port ${PORT} is listening`);
+  console.log(`port ${PORT} is listening`);
+  cronRun();
 });
 
 function _connectDB() {
-    mongoose.connect(MONGO_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
+  mongoose.connect(MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 
-    const { connection } = mongoose;
+  const { connection } = mongoose;
 
-    connection.on('error', (error) => {
-        console.log(error);
-    });
+  connection.on('error', (error) => {
+    console.log(error);
+  });
 }
