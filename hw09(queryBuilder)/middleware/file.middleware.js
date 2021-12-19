@@ -19,7 +19,7 @@ const {
 module.exports = {
     checkFile: (req, res, next) => {
         try {
-            const { files } = req;
+            const { files = {} } = req;
 
             const docs = [];
             const photos = [];
@@ -78,7 +78,7 @@ module.exports = {
 
             // 2nd var
 
-            const { files } = req;
+            const { files = {} } = req;
 
             for (let i = 0; i < files.length; i++) {
                 const allFilesValues = Object.values(files);
