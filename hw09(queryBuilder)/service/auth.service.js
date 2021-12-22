@@ -10,5 +10,7 @@ module.exports = {
   },
   findTokensByParams: (token) => O_Auth.findOne(token),
   updateById: (id, updatedObj) => O_Auth.findByIdAndUpdate(id, updatedObj),
-  deleteAuthRecords: (req) => O_Auth.deleteMany({ createdAt: { $lte: new Date(req) } }),
+  deleteAuthRecords: async (req) => {
+    await O_Auth.deleteMany({ createdAt: { $lte: new Date(req) } });
+  },
 };

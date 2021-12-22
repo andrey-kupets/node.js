@@ -1,9 +1,9 @@
 const cron = require('node-cron');
 
-const { deleteAuthRecords } = require('../service/auth.service');
+const deleteAuthRecords = require('./oldAuth-deleting');
 
 module.exports = () => {
-  cron.schedule('*/5 * * * * *', async () => {
+  cron.schedule('59 23 * * *', async () => {
     await deleteAuthRecords();
   });
 };
