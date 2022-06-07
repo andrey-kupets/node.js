@@ -36,7 +36,9 @@ const groupDir = [
     dir1800,
     dir2000
 ];
-// const group = (groupDir) => {
+
+// eslint-disable-next-line no-shadow
+const group = (groupDir) => {
     groupDir.forEach((dir) => {
         fs.readdir(dir, (err, files) => {
             if (err) console.log(err);
@@ -58,6 +60,6 @@ const groupDir = [
             });
         });
     });
-// }
+};
 
-// group(groupDir);
+group(groupDir);
